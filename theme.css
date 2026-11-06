@@ -1,0 +1,324 @@
+/* Suzuri — an Obsidian theme
+   Tuned for Japanese text: letter-spacing, line-height (1.9), paragraph spacing, and heading rhythm.
+   Fonts are not bundled. Install them locally if you want the intended look:
+   - Text / UI: Noto Sans JP (falls back to IBM Plex Sans JP, Meiryo, sans-serif)
+   - Code: IBM Plex Mono (falls back to JetBrains Mono, Fira Code, Consolas, monospace)
+   License: MIT (see LICENSE).
+
+   日本語の文章を読みやすく組むための Obsidian テーマ。フォントは同梱しない。 */
+
+/* ─── 文字の組み方（light・dark 共通） ─────────────────────────── */
+body {
+  /* フォント。Noto Sans JP は PC に入っているものを使う（テーマに埋め込まない） */
+  --font-text-theme: 'Noto Sans JP', 'IBM Plex Sans JP', 'Meiryo', sans-serif;
+  --font-interface-theme: 'Noto Sans JP', 'Yu Gothic UI', 'Meiryo', sans-serif;
+  --font-monospace-theme: 'IBM Plex Mono', 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* 段落・リスト・本文の幅 */
+  --p-spacing: 0.8em;
+  --heading-spacing: 1.2em;
+  --list-spacing: 0.3em;
+  --file-line-width: 680px;
+
+  /* 見出し: 大きさ・太さ・行間・字間 */
+  --h1-size: 2em;
+  --h2-size: 1.5em;
+  --h3-size: 1.25em;
+  --h4-size: 1.1em;
+  --h5-size: 1em;
+  --h6-size: 0.95em;
+  --h1-weight: 700;
+  --h2-weight: 700;
+  --h3-weight: 700;
+  --h4-weight: 600;
+  --h5-weight: 600;
+  --h6-weight: 600;
+  --h1-line-height: 1.3;
+  --h2-line-height: 1.3;
+  --h3-line-height: 1.3;
+  --h4-line-height: 1.3;
+  --h5-line-height: 1.3;
+  --h6-line-height: 1.3;
+  --h1-letter-spacing: 0.02em;
+  --h2-letter-spacing: 0.02em;
+  --h3-letter-spacing: 0.02em;
+  --h4-letter-spacing: 0.02em;
+  --h5-letter-spacing: 0.02em;
+  --h6-letter-spacing: 0.02em;
+
+  /* コード */
+  --code-size: 0.875em;
+  --code-radius: 8px;
+
+  /* リンク: 下線は 1px、文字からの離れは 2px。マウスを乗せると下線を 2px にする */
+  --link-decoration: underline;
+  --link-decoration-hover: underline;
+  --link-external-decoration: underline;
+  --link-external-decoration-hover: underline;
+  --link-decoration-thickness: 1px;
+  --link-unresolved-decoration-style: dashed;
+  --link-unresolved-opacity: 0.9;
+
+  /* 引用・表・区切り線 */
+  --blockquote-border-thickness: 4px;
+  --table-border-width: 0;
+  --table-line-height: 1.9;
+  --table-text-size: calc(var(--font-preferred-size, var(--font-text-size)) * 0.9);
+  --table-row-last-border-width: 1px;
+  --hr-thickness: 1px;
+
+  /* リストの記号とチェックリスト: 記号は本文と同じ色、済んだ項目に取り消し線を引かない */
+  --list-marker-color: var(--text-normal);
+  --list-bullet-size: 0.4em;
+  --checklist-done-decoration: none;
+  --checklist-done-color: var(--text-normal);
+
+  /* UI の字間 */
+  letter-spacing: 0.025em;
+}
+
+/* 本文の行間 1.9。UI の行間は変えないよう、本文の枠の中だけで変数を上書きする */
+.markdown-preview-view,
+.markdown-source-view {
+  --line-height-normal: 1.9;
+}
+
+/* 本文の字間: 読み取り表示は 0.02em、編集表示は 0.04em */
+.markdown-preview-view,
+.markdown-source-view.mod-cm6 .cm-scroller {
+  letter-spacing: 0.02em;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-scroller {
+  letter-spacing: 0.04em;
+}
+
+/* コードは字間 0 */
+.markdown-rendered code,
+.markdown-rendered pre,
+.cm-s-obsidian span.cm-inline-code,
+.cm-s-obsidian .HyperMD-codeblock,
+.markdown-source-view.mod-cm6 .cm-embed-block pre {
+  letter-spacing: 0;
+}
+
+/* ─── 読み取り表示 ───────────────────────────────────────────── */
+.markdown-rendered h1,
+.markdown-rendered h2,
+.markdown-rendered h3,
+.markdown-rendered h4,
+.markdown-rendered h5,
+.markdown-rendered h6 {
+  margin-block-start: 1.2em;
+  margin-block-end: 0.5em;
+}
+.markdown-rendered h1 { border-bottom: 2px solid var(--background-modifier-border); padding-bottom: 0.3em; }
+.markdown-rendered h2 { border-bottom: 1px solid var(--background-modifier-border); padding-bottom: 0.2em; }
+
+.markdown-rendered a { text-underline-offset: 2px; }
+.markdown-rendered a:hover { text-decoration-thickness: 2px; }
+
+.markdown-rendered :not(pre) > code {
+  background-color: var(--suzuri-code-inline-bg);
+  color: var(--suzuri-code-inline-text);
+  padding: 0.18em 0.48em;
+}
+.markdown-rendered pre {
+  padding: 16px;
+  margin: 1em 0;
+}
+
+.markdown-rendered blockquote {
+  padding-inline-start: 16px;
+  margin: 1em 0;
+}
+
+.markdown-rendered ul,
+.markdown-rendered ol {
+  margin-block: 0.5em;
+}
+
+/* 表: 幅いっぱい、文字は 0.9em、セルの内側は 8px 12px */
+.markdown-rendered table { margin-block: 1em; width: 100%; }
+.markdown-rendered th,
+.markdown-rendered td {
+  border-bottom: 1px solid var(--table-border-color);
+  padding: 8px 12px;
+  vertical-align: top;
+}
+
+.markdown-rendered hr { margin: 2em 0; }
+
+/* ─── 編集表示（Live Preview・ソース） ──────────────────────────
+   CodeMirror の行に margin を付けると行の高さの計算が狂うため、見出しの前後の空きは padding で付ける。
+   見出しの下線の後ろの空き（読み取り表示では、次の段落の 0.8em）は付けられない。
+   ソースモードは Obsidian の既定のままにする */
+.markdown-source-view.mod-cm6.is-live-preview .cm-line.HyperMD-header {
+  padding-top: 1.5em;
+}
+
+/* 編集表示の段落の間は、空行 1 行の高さのまま（行間 1.9 の 1 行分）にする。
+   空行の高さを縮めると、空行で打ち始めた瞬間に行が元の高さに戻り、下の文章が下がるため。
+   見出しの上の空き（1.5em）は空行と足し合わせず大きい方だけにしたいので、
+   空行の後ろの見出しは、空行の分を引いた空き（負になるなら 0）にする */
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:not(.HyperMD-codeblock):not(.cm-table-widget .cm-line):has(> br:only-child) + .cm-line.HyperMD-header {
+  padding-top: max(0px, calc(1.5em - 1.9 * var(--font-preferred-size, var(--font-text-size))));
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-content > .cm-line.HyperMD-header:first-child {
+  padding-top: 0;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-line.HyperMD-header-1 {
+  border-bottom: 2px solid var(--background-modifier-border);
+  padding-bottom: 0.3em;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-line.HyperMD-header-2 {
+  border-bottom: 1px solid var(--background-modifier-border);
+  padding-bottom: 0.2em;
+}
+
+.markdown-source-view.mod-cm6 .cm-underline { text-underline-offset: 2px; }
+.markdown-source-view.mod-cm6 .cm-underline:hover { text-decoration-thickness: 2px; }
+
+.cm-s-obsidian span.cm-inline-code:not(.cm-formatting) {
+  background-color: var(--suzuri-code-inline-bg);
+  color: var(--suzuri-code-inline-text);
+}
+
+/* 編集表示の表のセルは入れ子のエディタで、文字の大きさを --font-text-size（1.15 からは --font-preferred-size）で決める。
+   このため、表の中だけ両方の変数を上書きする */
+.markdown-source-view.mod-cm6 .cm-table-widget {
+  --font-text-size: var(--table-text-size);
+  --font-preferred-size: var(--table-text-size);
+}
+.markdown-source-view.mod-cm6 .cm-table-widget .table-wrapper,
+.markdown-source-view.mod-cm6 .cm-table-widget table { width: 100%; }
+.markdown-source-view.mod-cm6 .cm-table-widget th,
+.markdown-source-view.mod-cm6 .cm-table-widget td {
+  border-bottom: 1px solid var(--table-border-color);
+}
+.markdown-source-view.mod-cm6 .cm-table-widget .table-cell-wrapper {
+  padding: 8px 12px;
+}
+
+/* ─── 配色（light） ───────────────────────────────────── */
+.theme-light {
+  --accent-h: 30;
+  --accent-s: 5%;
+  --accent-l: 15%;
+
+  --background-primary: #FDFDFC;
+  --background-primary-alt: #F4F4F2;
+  --background-secondary: #F4F4F2;
+  --background-secondary-alt: #EAEAE7;
+  --background-modifier-border: #E1E0DC;
+  --background-modifier-border-hover: #D7D6D2;
+  --background-modifier-border-focus: #C1C0BB;
+
+  --text-normal: #4A4843;
+  --text-muted: #5C5A55;
+  --text-faint: #898781;
+  --text-accent: #C05C46;
+  --text-accent-hover: #C05C46;
+  --text-on-accent: #FDFDFC;
+  --interactive-accent: #282624;
+  --interactive-accent-hover: #131211;
+
+  --link-color: #C05C46;
+  --link-color-hover: #C05C46;
+  --link-external-color: #C05C46;
+  --link-external-color-hover: #C05C46;
+  --link-unresolved-color: #BE4438;
+  --link-unresolved-decoration-color: #BE4438;
+
+  --color-red: #BE4438;     --color-red-rgb: 190, 68, 56;
+  --color-orange: #C67947;  --color-orange-rgb: 198, 121, 71;
+  --color-yellow: #B8912E;  --color-yellow-rgb: 184, 145, 46;
+  --color-green: #5C7D5C;   --color-green-rgb: 92, 125, 92;
+  --color-cyan: #57807A;    --color-cyan-rgb: 87, 128, 122;
+  --color-blue: #5F7E96;    --color-blue-rgb: 95, 126, 150;
+  --color-purple: #8A6478;  --color-purple-rgb: 138, 100, 120;
+
+  --code-background: #F5F5F2;
+  --code-normal: #161513;
+  --code-comment: #5A5851;
+  --suzuri-code-inline-bg: #F2F2EF;
+  --suzuri-code-inline-text: #45433E;
+
+  --blockquote-border-color: #282624;
+  --blockquote-color: #3A3833;
+  --h6-color: #3A3833;
+  --hr-color: #E1E0DC;
+
+  --table-border-color: #E1E0DC;
+  --table-header-background: #E8E7E4;
+  --table-header-color: #282624;
+  --table-header-weight: 600;
+  --table-row-alt-background: #F4F4F2;
+
+  --scrollbar-bg: #F4F4F2;
+  --scrollbar-thumb-bg: #C7C6C0;
+  --scrollbar-active-thumb-bg: #898781;
+}
+
+/* ─── 配色（dark） ────────────────────────────────────── */
+.theme-dark {
+  --accent-h: 50;
+  --accent-s: 11%;
+  --accent-l: 89%;
+
+  --background-primary: #121110;
+  --background-primary-alt: #171615;
+  --background-secondary: #171615;
+  --background-secondary-alt: #0C0B0A;
+  --background-modifier-border: #2D2C29;
+  --background-modifier-border-hover: #3C3B37;
+  --background-modifier-border-focus: #6B6A64;
+
+  --text-normal: #D9D8D2;
+  --text-muted: #B5B4AC;
+  --text-faint: #6B6A64;
+  --text-accent: #DE7258;
+  --text-accent-hover: #DE7258;
+  --text-on-accent: #121110;
+  --interactive-accent: #E7E6E1;
+  --interactive-accent-hover: #FFFFFF;
+
+  --link-color: #DE7258;
+  --link-color-hover: #DE7258;
+  --link-external-color: #DE7258;
+  --link-external-color-hover: #DE7258;
+  --link-unresolved-color: #DE7258;
+  --link-unresolved-decoration-color: #DE7258;
+
+  --color-red: #DE7258;     --color-red-rgb: 222, 114, 88;
+  --color-orange: #D89060;  --color-orange-rgb: 216, 144, 96;
+  --color-yellow: #CFA94F;  --color-yellow-rgb: 207, 169, 79;
+  --color-green: #88AB80;   --color-green-rgb: 136, 171, 128;
+  --color-cyan: #80A79D;    --color-cyan-rgb: 128, 167, 157;
+  --color-blue: #8DA7B7;    --color-blue-rgb: 141, 167, 183;
+  --color-purple: #B08CA0;  --color-purple-rgb: 176, 140, 160;
+
+  --code-background: #0B0A09;
+  --code-normal: #F4F3ED;
+  --code-comment: #B4B3A9;
+  --suzuri-code-inline-bg: #252423;
+  --suzuri-code-inline-text: #E2E1D9;
+
+  --blockquote-border-color: #E7E6E1;
+  --blockquote-color: #D4D3CB;
+  --h6-color: #D4D3CB;
+  --hr-color: #2D2C29;
+
+  --table-border-color: #2D2C29;
+  --table-header-background: #21201E;
+  --table-header-color: #E7E6E1;
+  --table-header-weight: 600;
+  --table-row-alt-background: #171615;
+
+  --interactive-normal: #21201E;
+  --interactive-hover: #2D2C29;
+  --background-modifier-form-field: #171615;
+
+  --scrollbar-bg: #171615;
+  --scrollbar-thumb-bg: #3C3B37;
+  --scrollbar-active-thumb-bg: #6B6A64;
+}

@@ -1,0 +1,4 @@
+test-vault/.obsidian/*
+!test-vault/.obsidian/appearance.json
+test-vault/.trash/
+_local/
